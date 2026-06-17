@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qk.mapper.ClueMapper">
+
+    <!-- 分页查询线索列表（关联用户表获取归属人姓名） -->
+    <select id="pageQuery" resultType="com.qk.entity.Clue">
+        SELECT c.*, u.name AS assign_name
+        FROM clue c
+        LEFT JOIN `user` u ON c.user_id = u.id
+        <where>
+            <if test="clueDto.name != null and clueDto.name != ''">
+                AND c.name LIKE CONCAT('%', #{clueDto.name}, '%')
+            </if>
+            <if test="clueDto.phone != null and clueDto.phone != ''">
+                AND c.phone = #{clueDto.phone}
+            </if>
+            <if test="clueDto.status != null">
+                AND c.status = #{clueDto.status}
+            </if>
+            <if test="clueDto.userId != null">
+                AND c.user_id = #{clueDto.userId}
+            </if>
+        </where>
+        ORDER BY c.update_time DESC
+    </select>
+
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.qk.mapper.UserMapper">
+
+    <!-- 分页查询用户列表（关联部门表和角色表获取部门名称和角色名称） -->
+    <select id="pageQuery" resultType="com.qk.entity.User">
+        SELECT u.*, d.name AS dept_name, r.name AS role_name
+        FROM `user` u
+        LEFT JOIN dept d ON u.dept_id = d.id
+        LEFT JOIN role r ON u.role_id = r.id
+        <where>
+            <if test="userDto.name != null and userDto.name != ''">
+                AND u.name LIKE CONCAT('%', #{userDto.name}, '%')
+            </if>
+            <if test="userDto.phone != null and userDto.phone != ''">
+                AND u.phone = #{userDto.phone}
+            </if>
+            <if test="userDto.status != null">
+                AND u.status = #{userDto.status}
+            </if>
+            <if test="userDto.deptId != null">
+                AND u.dept_id = #{userDto.deptId}
+            </if>
+        </where>
+        ORDER BY u.update_time DESC
+    </select>
+
+</mapper>
