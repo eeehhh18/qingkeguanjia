@@ -91,6 +91,9 @@ qingkeguanjia/
 
 所有异常由 `GlobalExceptionHandler` 统一处理，返回标准错误响应。
 
+管理员账号 admin
+密码 是默认一二三四五六 数字版
+
 ### 文件上传
 
 - 头像上传: `POST /user/upload`
@@ -98,5 +101,3 @@ qingkeguanjia/
 - 访问地址: `http://localhost:8080/uploads/`
 
 ## License
-
-MIT
